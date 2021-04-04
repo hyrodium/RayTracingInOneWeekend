@@ -3,6 +3,7 @@ using Rotations
 using LinearAlgebra
 using StaticArrays
 using Colors
+using Images
 abstract type AbstractCamera end
 
 struct PerspectiveCamera <: AbstractCamera
@@ -62,30 +63,22 @@ function PerspectiveCamera(look_at::Point3, location::Point3, width::Real, heigh
     return PerspectiveCamera(location, attitude, width, height)
 end
 
-camera = PerspectiveCamera()
-
-look_at = zeros(Point3)
-location = Point3(2,3,1)
-
-
-rays_ = rays(camera)
-
 function blue_back(ray::Ray)
     z = normalize(ray.direction)[3]
     return RGB((z+1)/2,(z+1)/2,1)
 end
 
 
+## examples
+
+# default camera
+camera = PerspectiveCamera()
+rays_ = rays(camera)
 [blue_back(ray) for ray in rays_]
 
-
-normalize(rays_[1].direction)[3]
-
-s = Sphere(Point(1,2,3.0), 3)
-s.center
-s.r
-
-
+# camera with location
+look_at = zeros(Point3)
+location = Point3(2,3,1)
 camera = PerspectiveCamera(look_at, location, 2,2)
-blue_back.(rays(camera))
-
+img = blue_back.(rays(camera))
+save("blue_back.png", img)
