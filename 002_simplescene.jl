@@ -68,6 +68,24 @@ function blue_back(ray::Ray)
     return RGB((z+1)/2,(z+1)/2,1)
 end
 
+s = Sphere(Point(0,0,0),2)
+
+function iscrossing(s::Sphere, ray::Ray)
+    r = s.r
+    n = normalize(ray.direction)
+    v = s.center-ray.origin
+    d = norm(v-dot(v,n)*n)
+    return d<r
+end
+
+function with_sphere(s::Sphere, ray::Ray)
+    if iscrossing(s,ray)
+        return RGB(1,0,0)
+    else
+        return blue_back(ray)
+    end
+end
+
 
 ## examples
 
@@ -75,10 +93,11 @@ end
 camera = PerspectiveCamera()
 rays_ = rays(camera)
 [blue_back(ray) for ray in rays_]
+[with_sphere(s, ray) for ray in rays_]
 
 # camera with location
 look_at = zeros(Point3)
 location = Point3(2,3,1)
 camera = PerspectiveCamera(look_at, location, 2,2)
-img = blue_back.(rays(camera))
-save("blue_back.png", img)
+img = [with_sphere(s, ray) for ray in rays(camera)]
+save("with_sphere.png", img)

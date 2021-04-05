@@ -23,8 +23,7 @@ Juliaで[Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTraci
     * :white_check_mark: `PerspectiveCamera`, `Ray`とかのstructをつくった。`Rotations.jl`が便利
     * :white_check_mark: 青背景のレンダリング完了
 5. Adding a Sphere
-    5.1. Ray-Sphere Intersection
-    5.2. Creating Our First Raytraced Image
+    * :white_check_mark: `GeometryBasics.Sphere`を使えばOK
 6. Surface Normals and Multiple Objects
     6.1. Shading with Surface Normals
     6.2. Simplifying the Ray-Sphere Intersection Code
